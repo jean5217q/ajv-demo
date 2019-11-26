@@ -46,7 +46,6 @@ export function normalizeAllError(ajvErrors = []) {
 
 export default function validate(data, schema) {
   const isValid = ajv.validate(schema, data);
-  console.log(schema, data);
   if (!isValid) {
     throw ajv.errors;
   }

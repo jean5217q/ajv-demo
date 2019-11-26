@@ -8,7 +8,7 @@
       "pattern": "^[a-zA-Z\\u4e00-\\u9fa5]+$",
       "maxLength": 100,
       "errorMessage": {
-        "pattern": "lease provide valid userName",
+        "pattern": "Please provide valid userName",
         "maxLength": "name should less then 100 digits"
       }
     },
@@ -41,7 +41,10 @@
     },
     "gender": {
       "type": "string",
-      "enum": ["male", "female"]
+      "enum": ["Lesbian", "Gay", "Bisexual", "Transgender", "Queer"],
+      "errorMessage": {
+        "enum": "Should be one of LGBTQ"
+      }
     },
     "address": {
       "type": "string"
