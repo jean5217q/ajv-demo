@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "http://ajv-demo/EditProfile.json",
+  "$id": "http://ajv-demo/editProfile.json",
 
   "definitions": {
     "ForEditProfile": {
@@ -8,33 +8,38 @@
         "name": { "$ref": "common.json#/definitions/name" },
         "mobile": { "$ref": "common.json#/definitions/mobile" },
         "gender": { "$ref": "common.json#/definitions/gender" },
-        "address": { "$ref": "common.json#/definitions/gender" }
+        "address": { "$ref": "common.json#/definitions/address" }
       },
       "required": ["name", "mobile", "gender"],
       "errorMessage": {
         "required": "This field is required"
       }
     },
-    "name": {
-      "allOf": [
-        { "$ref": "common.json#/definitions/name" },
-        {
-          "minLength": 1,
-          "errorMessage": { "minLength": "This field is required" }
-        }
-      ]
-    },
-    "mobile": {
-      "allOf": [
-        { "$ref": "common.json#/definitions/mobile" },
-        {
-          "minLength": 1,
-          "errorMessage": { "minLength": "This field is required" }
-        }
-      ]
-    },
-    "address": {
-      "$ref": "common.json#/definitions/gender"
+    "properties": {
+      "name": {
+        "allOf": [
+          { "$ref": "common.json#/definitions/name" },
+          {
+            "minLength": 1,
+            "errorMessage": { "minLength": "This field is required" }
+          }
+        ]
+      },
+      "mobile": {
+        "allOf": [
+          { "$ref": "common.json#/definitions/mobile" },
+          {
+            "minLength": 1,
+            "errorMessage": { "minLength": "This field is required" }
+          }
+        ]
+      },
+      "gender": {
+        "$ref": "common.json#/definitions/gender"
+      },
+      "address": {
+        "$ref": "common.json#/definitions/address"
+      }
     }
   }
 }

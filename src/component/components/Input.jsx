@@ -64,6 +64,7 @@ const TextInput = ({
   const handleBlur = e => {
     const { value, name } = e.currentTarget;
     if (validateByKeyUp) return;
+    console.log("blur");
     validate(value, name);
     setValidateByKeyUp(true);
   };

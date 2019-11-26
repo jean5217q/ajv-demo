@@ -1,7 +1,6 @@
 import Ajv from "ajv";
 import addAjvErrors from "ajv-errors";
 import pointer from "json-pointer";
-import UserSchema from "./schema/user.json";
 import CommonSchema from "./schema/common.json";
 import SignUpSchema from "./schema/SignUp.json";
 import EditProfileSchema from "./schema/EditProfile.json";
@@ -12,7 +11,6 @@ export const ajv = new Ajv({
   jsonPointers: true,
   schemas: {
     Common: CommonSchema,
-    User: UserSchema,
     SignUp: SignUpSchema,
     EditProfile: EditProfileSchema
   }
@@ -22,7 +20,6 @@ addAjvErrors(ajv);
 
 export function normalizeSingleError(errors = []) {
   let errorMessage = null;
-  console.log("error", errors);
   errors.forEach(error => {
     errorMessage = error.message;
   });
@@ -31,7 +28,6 @@ export function normalizeSingleError(errors = []) {
 
 export function normalizeAllError(ajvErrors = []) {
   const result = {};
-  console.log("ajvErrors", ajvErrors);
   ajvErrors.forEach(error => {
     const { keyword, dataPath, params, message } = error;
     if (dataPath) {
@@ -50,6 +46,7 @@ export function normalizeAllError(ajvErrors = []) {
 
 export default function validate(data, schema) {
   const isValid = ajv.validate(schema, data);
+  console.log(schema, data);
   if (!isValid) {
     throw ajv.errors;
   }

@@ -17,10 +17,9 @@ const SignUp = ({ baseUrl }) => {
     setInputs({ ...inputs, [name]: value });
   };
 
-  const eventValidator = (value, name) => {
-    console.log('single');
+  const validateItem = (obj, name) => {
     try {
-      const isValid = validateForSignUpItem(value, name);
+      const isValid = validateForSignUpItem(obj);
       if (isValid) {
         delete invalids[name];
         setInvalids({ ...invalids });
@@ -30,7 +29,17 @@ const SignUp = ({ baseUrl }) => {
     }
   };
 
-  const validInputs = (validFunc, input) => {
+  const normal = (value, name) => validateItem({ [name]: value }, name);
+  const pwd = (value, name) => {
+    const target = { confirmPassword: inputs.confirmPassword };
+    return validateItem({ ...target, [name]: value }, name);
+  };
+  const conformpwd = (value, name) => {
+    const target = { password: inputs.password };
+    return validateItem({ ...target, [name]: value }, name);
+  };
+
+  const validateAll = (validFunc, input) => {
     let isValid = false;
     try {
       isValid = validFunc(input);
@@ -43,10 +52,10 @@ const SignUp = ({ baseUrl }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setHasSubmit(true);
-    const valid = validInputs(validateForSignUp, inputs);
+    const valid = validateAll(validateForSignUp, inputs);
     if (!valid) return;
-    const eee = await axios.get(`${baseUrl}/signUp`);
-    console.log(eee);
+    const response = await axios.get(`${baseUrl}/signUp`);
+    console.log('response', response);
   };
   return (
     <>
@@ -56,20 +65,20 @@ const SignUp = ({ baseUrl }) => {
           label="User Name"
           name="name"
           onChange={handleOnChange}
-          value={inputs.name}
+          value={inputs.name || ''}
           invalid={!!invalids.name}
           message={invalids.name}
-          validate={eventValidator}
+          validate={normal}
           hasSubmit={hasSubmit}
         />
         <Input
           label="Email"
           name="email"
           onChange={handleOnChange}
-          value={inputs.email}
+          value={inputs.email || ''}
           invalid={!!invalids.email}
           message={invalids.email}
-          validate={eventValidator}
+          validate={normal}
           hasSubmit={hasSubmit}
         />
         <div style={{ margin: '2rem' }} />
@@ -77,20 +86,20 @@ const SignUp = ({ baseUrl }) => {
           label="Password"
           name="password"
           onChange={handleOnChange}
-          value={inputs.password}
+          value={inputs.password || ''}
           invalid={!!invalids.password}
           message={invalids.password}
-          validate={eventValidator}
+          validate={pwd}
           hasSubmit={hasSubmit}
         />
         <Input
           label="Confirm Password"
           name="confirmPassword"
           onChange={handleOnChange}
-          value={inputs.confirmPassword}
+          value={inputs.confirmPassword || ''}
           invalid={!!invalids.confirmPassword}
           message={invalids.confirmPassword}
-          validate={eventValidator}
+          validate={conformpwd}
           hasSubmit={hasSubmit}
         />
         <Button onClick={handleFormSubmit}>Submit</Button>

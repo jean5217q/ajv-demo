@@ -41,7 +41,7 @@
     },
     "gender": {
       "type": "string",
-      "enum": ["male", "female", "juristic"]
+      "enum": ["male", "female"]
     },
     "address": {
       "type": "string"
