@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://ajv-demo/user.json",
+
+  "definitions": {
+    "ForUser": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z\\u4e00-\\u9fa5]+$",
+          "maxLength": 100,
+          "errorMessage": {
+            "pattern": "should be a valid name",
+            "maxLength": "name should less then 100 digits"
+          }
+        },
+        "mail": {
+          "type": "string",
+          "maxLength": 256,
+          "pattern": "^([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]{1,64}|\\x22([^\\x0d\\x22\\x5c\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x22)(\\x2e([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]{1,64}|\\x22([^\\x0d\\x22\\x5c\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x22))*\\x40([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]{1,64}|\\x5b([^\\x0d\\x5b-\\x5d\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x5d)(\\x2e([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]{1,64}|\\x5b([^\\x0d\\x5b-\\x5d\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x5d))*$",
+          "errorMessage": {
+            "pattern": "error:schema.pattern"
+          }
+        }
+      },
+      "required": ["name", "mail"],
+      "errorMessage": {
+        "required": "required filed"
+      }
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z\\u4e00-\\u9fa5]+$",
+      "maxLength": 100,
+      "minLength": 1,
+      "errorMessage": {
+        "pattern": "should be a valid name",
+        "maxLength": "name should less then 100 digits",
+        "minLength": "name should more then 1 digits"
+      }
+    },
+    "mail": {
+      "type": "string",
+      "maxLength": 256,
+      "minLength": 1,
+      "pattern": "^([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]{1,64}|\\x22([^\\x0d\\x22\\x5c\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x22)(\\x2e([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]{1,64}|\\x22([^\\x0d\\x22\\x5c\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x22))*\\x40([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]{1,64}|\\x5b([^\\x0d\\x5b-\\x5d\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x5d)(\\x2e([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]{1,64}|\\x5b([^\\x0d\\x5b-\\x5d\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x5d))*$",
+      "errorMessage": {
+        "pattern": "error:schema.pattern",
+        "minLength": "email should more then 1 digits"
+      }
+    }
+  }
+}

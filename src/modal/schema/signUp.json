@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://ajv-demo/signUp.json",
+
+  "definitions": {
+    "ForSignUp": {
+      "properties": {
+        "name": { "$ref": "common.json#/definitions/name" },
+        "email": { "$ref": "common.json#/definitions/email" },
+        "password": { "$ref": "common.json#/definitions/password" },
+        "confirmPassword": {
+          "const": { "$data": "1/password" },
+          "errorMessage": {
+            "const": "Password should be the same"
+          }
+        }
+      },
+      "required": ["name", "email", "password", "confirmPassword"],
+      "errorMessage": {
+        "required": "This field is required"
+      }
+    },
+    "name": {
+      "allOf": [
+        { "$ref": "common.json#/definitions/name" },
+        {
+          "minLength": 1,
+          "errorMessage": { "minLength": "This field is required" }
+        }
+      ]
+    },
+    "email": {
+      "allOf": [
+        { "$ref": "common.json#/definitions/email" },
+        {
+          "minLength": 1,
+          "errorMessage": { "minLength": "This field is required" }
+        }
+      ]
+    },
+    "password": {
+      "allOf": [
+        { "$ref": "common.json#/definitions/password" },
+        {
+          "minLength": 1,
+          "errorMessage": { "minLength": "This field is required" }
+        }
+      ]
+    },
+    "confirmPassword": {
+      "const": { "$data": "0/password" },
+      "errorMessage": {
+        "const": "Password should be the same"
+      }
+    }
+  }
+}
