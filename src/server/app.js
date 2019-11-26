@@ -4,6 +4,7 @@ import AppComponent from "component/app";
 import { renderToString } from "react-dom/server";
 import { normalizeAllError } from "modal/validator";
 import { validateForSignUp } from "modal/signUp";
+import { validateForEditProfile } from "modal/editProfile";
 import path from 'path';
 import bodyParser from 'body-parser';
 
@@ -24,7 +25,17 @@ app.post("/signUp", (req, res) => {
   }
 });
 
-app.get("/editProfile", (req, res) => {});
+app.post("/editProfile", (req, res) => {
+  try {
+    const profile = req.body;
+    validateForEditProfile(profile);
+    res.sendStatus(200);
+  } catch(error) {
+    res.status(400).send({
+      message: normalizeAllError(error)
+    })
+  }
+});
 
 app.get("*", (req, res) => {
   res.send(`
