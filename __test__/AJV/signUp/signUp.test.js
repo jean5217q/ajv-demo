@@ -1,5 +1,5 @@
-import { validateForSignUp } from '../../src/model/signUp';
-import { normalizeAllErrors } from '../../src/model/validator';
+import { validateForSignUp } from '../../../src/model/signUp';
+import { normalizeAllErrors } from '../../../src/model/validator';
 import cases from './cases';
 
 describe('AJV validation rule for Sign up data', () => {
