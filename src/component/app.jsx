@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 // import { validateForUser, validateForUserItem } from 'modal/user';
 // import {
-//   normalizeAllError,
+//   normalizeAllErrors,
 //   normalizeSingleError,
 //   // normalizeErrors,
 // } from 'modal/validator';

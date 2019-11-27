@@ -10,35 +10,9 @@
         "gender": { "$ref": "common.json#/definitions/gender" },
         "address": { "$ref": "common.json#/definitions/address" }
       },
-      "required": ["name", "mobile", "gender"],
+      "required": ["name", "mobile", "gender", "address"],
       "errorMessage": {
         "required": "This field is required"
-      }
-    },
-    "properties": {
-      "name": {
-        "allOf": [
-          { "$ref": "common.json#/definitions/name" },
-          {
-            "minLength": 1,
-            "errorMessage": { "minLength": "This field is required" }
-          }
-        ]
-      },
-      "mobile": {
-        "allOf": [
-          { "$ref": "common.json#/definitions/mobile" },
-          {
-            "minLength": 1,
-            "errorMessage": { "minLength": "This field is required" }
-          }
-        ]
-      },
-      "gender": {
-        "$ref": "common.json#/definitions/gender"
-      },
-      "address": {
-        "$ref": "common.json#/definitions/address"
       }
     }
   }

@@ -2,26 +2,26 @@ import React from "react";
 import express from "express";
 import AppComponent from "component/app";
 import { renderToString } from "react-dom/server";
-import { normalizeAllError } from "modal/validator";
+import { normalizeAllErrors } from "modal/validator";
 import { validateForSignUp } from "modal/signUp";
 import { validateForEditProfile } from "modal/editProfile";
-import path from 'path';
-import bodyParser from 'body-parser';
+import path from "path";
+import bodyParser from "body-parser";
 
 const app = express();
 
 app.use(express.static(path.join(__dirname)));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.post("/signUp", (req, res) => {
   try {
     const signUpData = req.body;
     validateForSignUp(signUpData);
     res.sendStatus(200);
-  } catch(error) {
+  } catch (error) {
     res.status(400).send({
-      message: normalizeAllError(error)
-    })
+      message: normalizeAllErrors(error)
+    });
   }
 });
 
@@ -30,10 +30,10 @@ app.post("/editProfile", (req, res) => {
     const profile = req.body;
     validateForEditProfile(profile);
     res.sendStatus(200);
-  } catch(error) {
+  } catch (error) {
     res.status(400).send({
-      message: normalizeAllError(error)
-    })
+      message: normalizeAllErrors(error)
+    });
   }
 });
 

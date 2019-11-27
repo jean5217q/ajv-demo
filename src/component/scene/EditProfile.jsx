@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  validateForEditProfile,
-  validateForEditProfileItem,
-} from 'modal/editProfile';
-import { normalizeAllError, normalizeSingleError } from 'modal/validator';
+import { validateForEditProfile } from 'modal/editProfile';
+import { normalizeAllErrors, normalizeSingleError } from 'modal/validator';
 import axios from 'axios';
 
 import Title from '../components/Title';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import Label from '../components/Label';
+import Message from '../components/Message';
+import Radio from '../components/Radio';
 
 const EditProfile = ({ baseUrl }) => {
   const [inputs, setInputs] = useState({});
@@ -17,38 +17,41 @@ const EditProfile = ({ baseUrl }) => {
   const [hasSubmit, setHasSubmit] = useState(false);
 
   const handleOnChange = ({ currentTarget: { name, value } }) => {
-    setInputs({ ...inputs, [name]: value });
+    if (!value) {
+      delete inputs[name];
+      setInputs({ ...inputs });
+    } else setInputs({ ...inputs, [name]: value });
   };
 
-  const validateItem = (value, name) => {
-    try {
-      const isValid = validateForEditProfileItem(value, name);
-      if (isValid) {
-        delete invalids[name];
-        setInvalids({ ...invalids });
-      }
-    } catch (error) {
-      setInvalids({ ...invalids, [name]: normalizeSingleError(error) });
-    }
-  };
-
-  const validateAll = (validFunc, input) => {
+  const validateAll = () => {
     let isValid = false;
     try {
-      isValid = validFunc(input);
-    } catch (err) {
-      setInvalids(normalizeAllError(err));
+      isValid = validateForEditProfile(inputs);
+    } catch (error) {
+      setInvalids(normalizeAllErrors(error));
     }
     return isValid;
+  };
+
+  const validateSingle = (target) => {
+    let isValid = false;
+    try {
+      isValid = validateForEditProfile(inputs);
+      if (isValid) setInvalids({});
+    } catch (error) {
+      setInvalids(normalizeSingleError(error, invalids, target));
+    }
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setHasSubmit(true);
-    const valid = validateAll(validateForEditProfile, inputs);
-    if (!valid) return;
-    const response = await axios.get(`${baseUrl}/editProfile`);
-    console.log('response', response);
+    if (!validateAll()) return;
+    const response = await axios.post(`${baseUrl}/editProfile`, inputs);
+    if (response.status === 200) {
+      alert('success');
+      setInputs({});
+    }
   };
   return (
     <>
@@ -61,7 +64,7 @@ const EditProfile = ({ baseUrl }) => {
           value={inputs.name || ''}
           invalid={!!invalids.name}
           message={invalids.name}
-          validate={validateItem}
+          validate={validateSingle}
           hasSubmit={hasSubmit}
         />
         <Input
@@ -71,7 +74,7 @@ const EditProfile = ({ baseUrl }) => {
           value={inputs.mobile || ''}
           invalid={!!invalids.mobile}
           message={invalids.mobile}
-          validate={validateItem}
+          validate={validateSingle}
           hasSubmit={hasSubmit}
         />
         <div style={{ margin: '2rem' }} />
@@ -82,23 +85,34 @@ const EditProfile = ({ baseUrl }) => {
           value={inputs.address || ''}
           invalid={!!invalids.address}
           message={invalids.address}
-          validate={validateItem}
+          validate={validateSingle}
           hasSubmit={hasSubmit}
         />
-        <span>Male</span>
-        <input
-          type="radio"
-          value="male"
-          name="gender"
-          onChange={handleOnChange}
-        />
-        <span>Female</span>
-        <input
-          type="radio"
-          value="female"
-          name="gender"
-          onChange={handleOnChange}
-        />
+        <Label id="gender">Gender</Label>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <Radio
+            value="Gay"
+            onChange={handleOnChange}
+            validate={validateSingle}
+          />
+          <Radio
+            value="Bisexual"
+            onChange={handleOnChange}
+            validate={validateSingle}
+          />
+          <Radio
+            value="Transgender"
+            onChange={handleOnChange}
+            validate={validateSingle}
+          />
+          <Radio value="Queer" onChange={handleOnChange} />
+          <Radio
+            value="Lesbian"
+            onChange={handleOnChange}
+            validate={validateSingle}
+          />
+        </div>
+        <Message message={invalids.gender} />
         <Button onClick={handleFormSubmit}>Submit</Button>
       </div>
     </>

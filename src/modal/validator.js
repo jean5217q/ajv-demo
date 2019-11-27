@@ -18,30 +18,62 @@ export const ajv = new Ajv({
 
 addAjvErrors(ajv);
 
-export function normalizeSingleError(errors = []) {
-  let errorMessage = null;
+const sortErrorsByKey = errors => {
+  let result = {};
   errors.forEach(error => {
-    errorMessage = error.message;
-  });
-  return errorMessage;
-}
-
-export function normalizeAllError(ajvErrors = []) {
-  const result = {};
-  ajvErrors.forEach(error => {
     const { keyword, dataPath, params, message } = error;
     if (dataPath) {
-      pointer.set(result, dataPath, message);
+      console.log("1");
+      pointer.set(result, dataPath, error);
     } else if (keyword === "required") {
-      result[params.missingProperty] = message;
+      console.log("2");
+      result[params.missingProperty] = error;
     }
     if (keyword === "errorMessage" && !dataPath) {
+      console.log(error);
       params.errors.forEach(oriError => {
-        result[oriError.params.missingProperty] = message;
+        result[oriError.params.missingProperty] = {
+          ...error,
+          keyword: oriError.keyword
+        };
       });
     }
   });
   return result;
+};
+
+const getMessageFromErrors = errors => {
+  let messages = {};
+  for (let key in errors) {
+    messages = { ...messages, [key]: errors[key].message };
+  }
+  return messages;
+};
+
+export function normalizeSingleError(errors = [], prevErrors, currentTarget) {
+  // console.log(errors);
+
+  let errorMessages = {};
+  const currentErrors = sortErrorsByKey(errors);
+  const currentErrorKeys = Object.keys(currentErrors);
+  const prevErrorKeys = Object.keys(prevErrors);
+
+  currentErrorKeys.forEach(el => {
+    if (
+      prevErrorKeys.indexOf(el) === -1 &&
+      el !== currentTarget &&
+      currentErrors[el].keyword === "required"
+    ) {
+      delete currentErrors[el];
+    }
+  });
+  return getMessageFromErrors(currentErrors);
+}
+
+export function normalizeAllErrors(errors = []) {
+  console.log(errors);
+  const currentErrors = sortErrorsByKey(errors);
+  return getMessageFromErrors(currentErrors);
 }
 
 export default function validate(data, schema) {

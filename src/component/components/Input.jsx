@@ -1,22 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 3px;
-  color: black;
-  font-size: 0.875rem;
-  font-weight: 500;
-`;
-
-const Message = styled.span`
-  display: block;
-  color: ${({ invalid }) => (invalid ? "red" : "rgba(0, 0, 0, 0.3)")};
-  font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 2;
-`;
+import Label from "./Label";
+import Message from "./Message";
 
 const StyledInput = styled.input`
   box-sizing: border-box;
@@ -62,17 +48,18 @@ const TextInput = ({
   const [validateByKeyUp, setValidateByKeyUp] = useState(false);
 
   const handleBlur = e => {
-    const { value, name } = e.currentTarget;
+    const { name } = e.currentTarget;
     if (validateByKeyUp) return;
     console.log("blur");
-    validate(value, name);
+    validate(name);
     setValidateByKeyUp(true);
   };
 
   const handleKeyUp = e => {
-    const { value, name } = e.currentTarget;
+    const { name } = e.currentTarget;
     if (!validateByKeyUp) return;
-    validate(value, name);
+    console.log("keyup");
+    validate(name);
   };
 
   useEffect(() => {
@@ -81,7 +68,7 @@ const TextInput = ({
 
   return (
     <div style={{ marginBottom: "0.875rem" }}>
-      <Label htmlFor={id}>{label}</Label>
+      <Label id={id}>{label}</Label>
       <StyledInput
         type={type}
         id={id}
@@ -91,7 +78,7 @@ const TextInput = ({
         onKeyUp={handleKeyUp}
         {...props}
       />
-      {message ? <Message invalid={invalid}>{message}</Message> : null}
+      <Message message={message} />
     </div>
   );
 };
