@@ -1,5 +1,5 @@
 import { validateForSignUp } from '../../src/modal/signUp';
-import { normalizeAllError } from '../../src/modal/validator';
+import { normalizeAllErrors } from '../../src/modal/validator';
 import cases from './cases';
 
 describe('AJV validation rule for Sign up data', () => {
@@ -9,11 +9,22 @@ describe('AJV validation rule for Sign up data', () => {
     });
   });
   describe('Input incomplete data', () => {
-    test('without name should get required name error message', () => {
+    cases.incompleteDatas.forEach((incompleteData) => {
+      test(`${incompleteData.name} should get required error message`, () => {
+        try {
+          validateForSignUp(incompleteData.data);
+        } catch (error) {
+          expect(normalizeAllErrors(error)).toEqual(incompleteData.responseError);
+        }
+      });
+    });
+  });
+  describe('Input confirmPassword not match password', () => {
+    test('Should get not match mseeage', () => {
       try {
-        validateForSignUp(cases.withoutName);
+        validateForSignUp(cases.confirmPasswordNotMatch.data);
       } catch (error) {
-        expect(normalizeAllError(error)).toContain();
+        expect(normalizeAllErrors(error)).toEqual(cases.confirmPasswordNotMatch.responseError);
       }
     });
   });
