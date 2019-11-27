@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { validateForEditProfile } from 'modal/editProfile';
-import { normalizeAllErrors, normalizeSingleError } from 'modal/validator';
+import { validateForEditProfile } from 'model/editProfile';
+import { normalizeAllErrors, normalizeSingleError } from 'model/validator';
 import axios from 'axios';
 
 import Title from '../components/Title';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { validateForSignUp } from 'modal/signUp';
-import { normalizeAllErrors, normalizeSingleError } from 'modal/validator';
+import { validateForSignUp } from 'model/signUp';
+import { normalizeAllErrors, normalizeSingleError } from 'model/validator';
 import axios from 'axios';
 
 import Title from '../components/Title';
