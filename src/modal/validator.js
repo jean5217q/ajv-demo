@@ -23,14 +23,11 @@ const sortErrorsByKey = errors => {
   errors.forEach(error => {
     const { keyword, dataPath, params, message } = error;
     if (dataPath) {
-      console.log("1");
       pointer.set(result, dataPath, error);
     } else if (keyword === "required") {
-      console.log("2");
       result[params.missingProperty] = error;
     }
     if (keyword === "errorMessage" && !dataPath) {
-      console.log(error);
       params.errors.forEach(oriError => {
         result[oriError.params.missingProperty] = {
           ...error,
@@ -51,7 +48,6 @@ const getMessageFromErrors = errors => {
 };
 
 export function normalizeSingleError(errors = [], prevErrors, currentTarget) {
-  // console.log(errors);
 
   let errorMessages = {};
   const currentErrors = sortErrorsByKey(errors);
@@ -71,7 +67,6 @@ export function normalizeSingleError(errors = [], prevErrors, currentTarget) {
 }
 
 export function normalizeAllErrors(errors = []) {
-  console.log(errors);
   const currentErrors = sortErrorsByKey(errors);
   return getMessageFromErrors(currentErrors);
 }
