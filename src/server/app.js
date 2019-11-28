@@ -2,9 +2,9 @@ import React from "react";
 import express from "express";
 import AppComponent from "component/app";
 import { renderToString } from "react-dom/server";
-import { normalizeAllErrors } from "modal/validator";
-import { validateForSignUp } from "modal/signUp";
-import { validateForEditProfile } from "modal/editProfile";
+import { normalizeAllErrors } from "model/validator";
+import { validateForSignUp } from "model/signUp";
+import { validateForEditProfile } from "model/editProfile";
 import path from "path";
 import bodyParser from "body-parser";
 

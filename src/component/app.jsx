@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { validateForUser, validateForUserItem } from 'modal/user';
+// import { validateForUser, validateForUserItem } from 'model/user';
 // import {
 //   normalizeAllErrors,
 //   normalizeSingleError,
 //   // normalizeErrors,
-// } from 'modal/validator';
+// } from 'model/validator';
 // import axios from 'axios';
 
 import SignUp from './scene/SignUp';
