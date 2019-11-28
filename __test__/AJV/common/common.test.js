@@ -18,14 +18,15 @@ const ajv = new Ajv({
 addAjvErrors(ajv);
 
 describe('AJV validation rule for common data', () => {
-  const { dataPool } = cases.worngTypeData;
+  // Wrong type data input
+  const { dataPool } = cases;
   dataPool.forEach((data) => {
-    data.valuePool.forEach((value) => {
-      describe(`Input wrong type(${value.typeName}) data of ${data.key}`, () => {
+    data.worngTypeData.forEach((type) => {
+      describe(`Input wrong type(${type.name}) data of ${data.key}`, () => {
         if (data.key === 'gender') {
           test('get "should be string" and "one of LGBTQ" error message', () => {
             try {
-              validate(value.value, `${SCHEMA_ID}${data.key}`);
+              validate(type.value, `${SCHEMA_ID}${data.key}`);
             } catch (error) {
               expect(error.length).toEqual(2);
               expect(error[0].message).toEqual('should be string');
@@ -35,12 +36,66 @@ describe('AJV validation rule for common data', () => {
         } else {
           test('get "should be string" error message', () => {
             try {
-              validate(value.value, `${SCHEMA_ID}${data.key}`);
+              validate(type.value, `${SCHEMA_ID}${data.key}`);
             } catch (error) {
               expect(error.length).toEqual(1);
               expect(error[0].message).toEqual('should be string');
             }
           });
+        }
+      });
+    });
+  });
+
+  // name valistion rules test
+  const nameWorngPatternDataPool = dataPool[0].wrongPatternData;
+  nameWorngPatternDataPool.forEach((data) => {
+    describe(`Input ${data.name} of ${dataPool[0].key}`, () => {
+      test('get "Please provide valid name" error message', () => {
+        try {
+          validate(data.value, `${SCHEMA_ID}${dataPool[0].key}`);
+        } catch (error) {
+          expect(error.length).toEqual(1);
+          expect(error[0].message).toEqual('Please provide valid name');
+        }
+      });
+    });
+  });
+  const emailWorngPatternDataPool = dataPool[1].wrongPatternData;
+  emailWorngPatternDataPool.forEach((data) => {
+    describe(`Input ${data.name} of ${dataPool[1].key}`, () => {
+      test('get "Please provide valid email" error message', () => {
+        try {
+          validate(data.value, `${SCHEMA_ID}${dataPool[1].key}`);
+        } catch (error) {
+          expect(error.length).toEqual(1);
+          expect(error[0].message).toEqual('Please provide valid email');
+        }
+      });
+    });
+  });
+  const passwordWorngPatternDataPool = dataPool[2].wrongPatternData;
+  passwordWorngPatternDataPool.forEach((data) => {
+    describe(`Input ${data.name} of ${dataPool[2].key}`, () => {
+      test('get "Please provide valid password" error message', () => {
+        try {
+          validate(data.value, `${SCHEMA_ID}${dataPool[2].key}`);
+        } catch (error) {
+          expect(error.length).toEqual(1);
+          expect(error[0].message).toEqual('Please provide valid password');
+        }
+      });
+    });
+  });
+  const genderWorngOptionData = dataPool[4].wrongOptionData;
+  genderWorngOptionData.forEach((data) => {
+    describe(`Input ${data.name} of ${dataPool[4].key}`, () => {
+      test('get "Please provide valid password" error message', () => {
+        try {
+          validate(data.value, `${SCHEMA_ID}${dataPool[4].key}`);
+        } catch (error) {
+          expect(error.length).toEqual(1);
+          expect(error[0].message).toEqual('Should be one of LGBTQ');
         }
       });
     });

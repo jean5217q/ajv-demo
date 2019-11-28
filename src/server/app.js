@@ -1,43 +1,43 @@
-import React from "react";
-import express from "express";
-import AppComponent from "component/app";
-import { renderToString } from "react-dom/server";
-import { normalizeAllErrors } from "model/validator";
-import { validateForSignUp } from "model/signUp";
-import { validateForEditProfile } from "model/editProfile";
-import path from "path";
-import bodyParser from "body-parser";
+import React from 'react';
+import express from 'express';
+import AppComponent from 'component/app';
+import { renderToString } from 'react-dom/server';
+import { normalizeAllErrors } from 'model/validator';
+// import { validateForSignUp } from 'model/signUp';
+// import { validateForEditProfile } from 'model/editProfile';
+import path from 'path';
+import bodyParser from 'body-parser';
 
 const app = express();
 
 app.use(express.static(path.join(__dirname)));
 app.use(bodyParser.json());
 
-app.post("/signUp", (req, res) => {
+app.post('/signUp', (req, res) => {
   try {
-    const signUpData = req.body;
-    validateForSignUp(signUpData);
+    // const signUpData = req.body;
+    // validateForSignUp(signUpData);
     res.sendStatus(200);
   } catch (error) {
     res.status(400).send({
-      message: normalizeAllErrors(error)
+      message: normalizeAllErrors(error),
     });
   }
 });
 
-app.post("/editProfile", (req, res) => {
+app.post('/editProfile', (req, res) => {
   try {
-    const profile = req.body;
-    validateForEditProfile(profile);
+    // const profile = req.body;
+    // validateForEditProfile(profile);
     res.sendStatus(200);
   } catch (error) {
     res.status(400).send({
-      message: normalizeAllErrors(error)
+      message: normalizeAllErrors(error),
     });
   }
 });
 
-app.get("*", (req, res) => {
+app.get('*', (req, res) => {
   res.send(`
   <!DOCTYPE html>
     <head>
