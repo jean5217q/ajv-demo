@@ -11,6 +11,14 @@ const worngTypeData = [
     typeName: 'null',
     value: null,
   },
+  {
+    typeName: 'array',
+    value: [],
+  },
+  {
+    typeName: 'object',
+    value: {},
+  },
 ];
 
 
